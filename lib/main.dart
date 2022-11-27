@@ -5,7 +5,6 @@
 import 'dart:async';
 
 import 'package:application/home.dart';
-import 'package:application/randomWord.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -35,8 +34,10 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
         ),
+        primaryColor: const Color(0xffF76C6A),
       ),
       home: const Home(),
+
     );
   }
 }

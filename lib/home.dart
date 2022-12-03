@@ -51,7 +51,7 @@ class Home extends StatelessWidget {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemBuilder: (context, i) {
-        if (i.isOdd) {
+        if (i.isEven) {
           return buildRow(const Color(0xFFF76C6A));
         } else {
           return buildRow(const Color(0xFFF79E89));
@@ -62,11 +62,33 @@ class Home extends StatelessWidget {
 
   Widget buildRow(backgroundColor) {
     return Container(
-      color: backgroundColor,
+      margin: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: backgroundColor,
+      ),
       child: Column(
-        children: const [
-          Text("Design Logo", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),),
-          Text("HHHH")
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text(
+                  "Design Logo",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white),
+                ),
+                Image(image: AssetImage('assets/ic-clock.png'))
+              ]),
+          const SizedBox(height: 8),
+          const Text(
+            "Make logo for the mini project",
+            style: TextStyle(
+                fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
+          )
         ],
       ),
     );

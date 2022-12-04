@@ -1,4 +1,6 @@
+import 'package:application/detail.dart';
 import 'package:flutter/material.dart';
+import 'addTodoBottomSheetModal.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -37,10 +39,12 @@ class Home extends StatelessWidget {
               buildListView()
             ],
           )),
-      floatingActionButton: const FloatingActionButton(
-          onPressed: null,
-          backgroundColor: Color(0xffF76C6A),
-          child: ImageIcon(AssetImage('assets/ic-floating.png'))),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: const Color(0xffF76C6A),
+          onPressed: () {
+            addTodoBottomSheetModal(context, null);
+          },
+          child: const ImageIcon(AssetImage('assets/ic-floating.png'))),
     );
   }
 
@@ -52,45 +56,61 @@ class Home extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (context, i) {
         if (i.isEven) {
-          return buildRow(const Color(0xFFF76C6A));
+          return buildRow(context, const Color(0xFFF76C6A), i);
         } else {
-          return buildRow(const Color(0xFFF79E89));
+          return buildRow(context, const Color(0xFFF79E89), i);
         }
       },
     ));
   }
 
-  Widget buildRow(backgroundColor) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: backgroundColor,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  "Design Logo",
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white),
-                ),
-                Image(image: AssetImage('assets/ic-clock.png'))
-              ]),
-          const SizedBox(height: 8),
-          const Text(
-            "Make logo for the mini project",
-            style: TextStyle(
-                fontSize: 14, fontWeight: FontWeight.w400, color: Colors.white),
-          )
-        ],
-      ),
-    );
+  Widget buildRow(context, backgroundColor, index) {
+    return GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => const Detail()));
+        },
+        child: Container(
+          height: 120,
+          margin: const EdgeInsets.only(bottom: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: backgroundColor,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text(
+                      "Design Logo",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white),
+                    ),
+                    Image(image: AssetImage('assets/ic-home-clock.png'))
+                  ]),
+              const Text(
+                "Make logo for the mini project",
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white),
+              ),
+              const Text(
+                "Created at 1 Sept 2021",
+                style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white),
+              )
+            ],
+          ),
+        ));
   }
+
 }

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'addTodoBottomSheetModal.dart';
+import '../widgets/add_todo_bottom_sheet_widget.dart';
 
-class Detail extends StatelessWidget {
-  const Detail({super.key});
+class DetailScreen extends StatelessWidget {
+  final id, title;
+
+  const DetailScreen({
+    super.key,
+    required this.id,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +23,7 @@ class Detail extends StatelessWidget {
               onPressed: () {
                 addTodoBottomSheetModal(context, null);
               },
-              icon: Image.asset('assets/ic-edit.png')
-          ),
+              icon: Image.asset('assets/ic-edit.png')),
           IconButton(onPressed: null, icon: Image.asset('assets/ic-trash.png')),
         ],
       ),

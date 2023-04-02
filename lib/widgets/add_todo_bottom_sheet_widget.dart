@@ -1,7 +1,8 @@
 import 'dart:io';
 
+import 'package:application/model/todo_model.dart';
+import 'package:application/services/pref_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 File? _image;
@@ -128,14 +129,18 @@ Widget button(context) {
     margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12), color: Colors.white),
-    child: TextButton(
-      onPressed: () {},
-      child: const Text(
+    child: const TextButton(
+      onPressed: onAddTodoTap,
+      child: Text(
         "ADD TODO",
         style: TextStyle(color: Color(0xFFF79E89)),
       ),
     ),
   );
+}
+
+onAddTodoTap() {
+
 }
 
 Future<void> addTodoBottomSheetModal(context, content) {

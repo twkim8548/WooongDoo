@@ -1,7 +1,11 @@
 import 'dart:convert';
 
 class TodoModel {
-  final String title, content, createdAt;
+  final String title, content;
+  final DateTime createdAt;
+
+  TodoModel(
+      {required this.title, required this.content, required this.createdAt});
 
   TodoModel.fromJson(Map<String, dynamic> json)
       : title = json['title'],

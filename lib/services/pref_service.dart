@@ -21,7 +21,10 @@ class PrefService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<TodoModel> todos = [];
 
-    todos = TodoModel.decode(prefs.getString('todos')!);
+    if (prefs.getString('todos') != null && prefs.getString('todos')!.isNotEmpty ) {
+      todos = TodoModel.decode(prefs.getString('todos')!);
+    }
+
     todos.add(todo);
 
     TodoModel.encode(todos);

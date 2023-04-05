@@ -18,11 +18,12 @@ Widget bar(context) {
       ));
 }
 
-Widget title(context) {
+Widget title(context, controller) {
   return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(top: 20),
       child: TextField(
+        controller: controller,
         style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -39,28 +40,41 @@ Widget title(context) {
       ));
 }
 
-Widget description(context) {
+Widget description(context, controller) {
   return Container(
       width: double.infinity,
       height: double.infinity,
       margin: const EdgeInsets.only(top: 20),
       child: TextField(
+        controller: controller,
         textAlignVertical: TextAlignVertical.top,
         expands: true,
         maxLines: null,
         keyboardType: TextInputType.multiline,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(
+          color: Colors.white,
+        ),
         decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Colors.white, width: 2)),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(width: 2, color: Colors.white),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(
+              color: Colors.white,
+              width: 2,
             ),
-            labelText: 'Description',
-            labelStyle: const TextStyle(color: Colors.white),
-            alignLabelWithHint: true),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(
+              width: 2,
+              color: Colors.white,
+            ),
+          ),
+          labelText: 'Description',
+          labelStyle: const TextStyle(
+            color: Colors.white,
+          ),
+          alignLabelWithHint: true,
+        ),
         cursorColor: Colors.white,
       ));
 }
@@ -129,9 +143,9 @@ Widget button(context) {
     margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12), color: Colors.white),
-    child: const TextButton(
-      onPressed: onAddTodoTap,
-      child: Text(
+    child: TextButton(
+      onPressed: () => onAddTodoTap(context),
+      child: const Text(
         "ADD TODO",
         style: TextStyle(color: Color(0xFFF79E89)),
       ),
@@ -139,9 +153,83 @@ Widget button(context) {
   );
 }
 
-onAddTodoTap() {
+onAddTodoTap(context) {
+  if (titleController.text.isEmpty) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('WoongDoo'),
+          content: const Text('제목을 입력해주세요.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                '닫기',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
+  if (contentController.text.isEmpty) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('WoongDoo'),
+          content: const Text('내용을 입력해주세요.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                '닫기',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  final todo = TodoModel(
+      title: titleController.text,
+      content: contentController.text,
+      createdAt: DateTime.now());
+
+  PrefService.addTodo(todo).then(
+    (value) => showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('WoongDoo'),
+          content: const Text('저장 완료'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                '닫기',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    ),
+  );
 }
+
+final titleController = TextEditingController();
+final contentController = TextEditingController();
 
 Future<void> addTodoBottomSheetModal(context, content) {
   return showModalBottomSheet<dynamic>(
@@ -160,8 +248,8 @@ Future<void> addTodoBottomSheetModal(context, content) {
         child: Column(
           children: [
             bar(context),
-            title(context),
-            Expanded(child: description(context)),
+            title(context, titleController),
+            Expanded(child: description(context, contentController)),
             deadLine(context),
             image(context),
             button(context)
